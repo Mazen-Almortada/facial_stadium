@@ -112,14 +112,13 @@ class SignupController extends GetxController {
 
   Future<void> finishSignup() async {
     try {
+      userModel.value.imageUrl = await firebaseStorageService.userPicture(
+          userModel.value.email!, image.value);
       await auth
           .createUserWithEmailAndPassword(
               email: userModel.value.email!,
               password: userModel.value.password!)
           .then((user) async {
-        userModel.value.imageUrl = await firebaseStorageService.userPicture(
-            userModel.value.email!, image.value);
-
         await _setUserData(userModel.value, user.user!.uid);
       });
 
@@ -130,7 +129,8 @@ class SignupController extends GetxController {
       showCustomSnackBar(customSnackBarError(errorMessage: "${e.message}"));
     } on FirebaseException catch (e) {
       showCustomSnackBar(customSnackBarError(errorMessage: "${e.message}"));
-    } catch (_) {
+    } catch (e) {
+      print(e);
       showCustomSnackBar(customSnackBarError(errorMessage: "Something error"));
     } finally {
       verifyingSignup.value = false;

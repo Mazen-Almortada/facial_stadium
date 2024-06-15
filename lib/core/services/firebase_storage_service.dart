@@ -18,12 +18,7 @@ class FirebaseStorageService {
     final UploadTask uploadTask = storageReference.putFile(image, metadata);
 
     // Wait for the upload to complete
-    final TaskSnapshot taskSnapshot = await uploadTask.timeout(
-      const Duration(seconds: 30),
-      onTimeout: () {
-        throw Exception();
-      },
-    );
+    final TaskSnapshot taskSnapshot = await uploadTask;
 
     // Get the download URL of the uploaded image
     final String imageUrl = await taskSnapshot.ref.getDownloadURL();

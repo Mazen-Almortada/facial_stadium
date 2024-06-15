@@ -2,8 +2,11 @@ import 'package:facial_stadium/core/styles/app_colors.dart';
 import 'package:facial_stadium/core/styles/app_text_style.dart';
 import 'package:facial_stadium/core/widgets/app_bar.dart';
 import 'package:facial_stadium/core/widgets/brand_name_widget.dart';
+import 'package:facial_stadium/core/widgets/custom_button.dart';
 import 'package:facial_stadium/core/widgets/custom_text_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -52,12 +55,24 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(
                 height: 70,
               ),
-              Center(
-                  child: CustomTextsWidget(
-                text: "No News",
-                style: AppTextStyle.primaryTextStyle(
-                    bold: true, color: Colors.white, size: 20),
-              )),
+              _selectedIndex == 4
+                  ? Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: CustomButton(
+                          onPressed: () async {
+                            FirebaseAuth auth = FirebaseAuth.instance;
+                            await auth.signOut();
+                            Get.offAllNamed("/onboarding");
+                          },
+                          text: "Logout"),
+                    )
+                  : Center(
+                      child: CustomTextsWidget(
+                        text: "No News",
+                        style: AppTextStyle.primaryTextStyle(
+                            bold: true, color: Colors.white, size: 20),
+                      ),
+                    ),
             ],
           ),
         ),
