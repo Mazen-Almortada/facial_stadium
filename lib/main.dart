@@ -1,5 +1,15 @@
+import 'package:facial_stadium/core/widgets/brand_name_widget.dart';
+import 'package:facial_stadium/views/forgot_password.dart';
+import 'package:facial_stadium/views/home_screen.dart';
+import 'package:facial_stadium/views/login_screen.dart';
+import 'package:facial_stadium/views/login_view.dart';
+import 'package:facial_stadium/views/onboarding_screen.dart';
+import 'package:facial_stadium/views/signup_screen.dart';
+import 'package:facial_stadium/views/splash_screen.dart';
+import 'package:facial_stadium/views/verify_done_view.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,7 +22,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Facial Stadium',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -21,7 +31,17 @@ class MyApp extends StatelessWidget {
         androidOverscrollIndicator: AndroidOverscrollIndicator.stretch,
       ),
       debugShowCheckedModeBanner: false,
-      home: const MyHomePage(),
+      initialRoute: '/',
+      getPages: [
+        GetPage(name: '/', page: () => const SplashScreen()),
+        GetPage(name: '/login', page: () => const LoginScreen()),
+        GetPage(name: '/home', page: () => const HomeScreen()),
+        GetPage(name: '/onboarding', page: () => const OnbordingScreen()),
+        GetPage(name: '/signup', page: () => const SignUpScreen()),
+        GetPage(name: '/loginview', page: () => LoginView()),
+        GetPage(name: '/verifydone', page: () => const VerifyDoneWidget()),
+        GetPage(name: '/forgotpass', page: () => const ForgotPasswordScreen()),
+      ],
     );
   }
 }
@@ -45,11 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Text(
-              'home',
-            ),
-          ],
+          children: const [BrandNameWidget()],
         ),
       ),
     );
